@@ -20,6 +20,7 @@ fn main() {
   literals_and_operators();
   tuples();
   arrays_and_slices();
+  structures();
 }
 
 fn formatted_print() {
@@ -254,9 +255,6 @@ fn arrays_and_slices() {
         println!("the slice has {} elements", slice.len());
     }
 
-    #[derive(Debug)]
-    [i32; 500];
-
     let xs: [i32; 5] = [1, 2, 3, 4, 5];
     let ys: [i32; 500] = [0; 500];
 
@@ -271,5 +269,32 @@ fn arrays_and_slices() {
 
     println!("borrow a section of the array as a slice");
     analyze_slice(&ys[1..4]);
-    println!("{}", xs[5]);
+}
+
+fn structures() {
+    struct Nil;
+    struct Pair(i32, f64);
+    struct Point {
+        x: f64,
+        y: f64,
+    }
+
+    #[allow(dead_code)]
+    struct Rectangle {
+        p1: Point,
+        p2: Point,
+    }
+
+    let point: Point = Point { x: 0.3, y: 0.4};
+    println!("point coordinates: ({}, {})", point.x, point.y);
+
+    let Point{ x: my_x, y: my_y } = point;
+    let _rectangle = Rectangle {
+        p1: Point {x: my_x, y: my_y},
+        p2: point,
+    };
+    let _nil = Nil;
+    let pair = Pair(1, 0.1);
+    let Pair(integer, decimal) = pair;
+    println!("pari contains {:?} and {:?}", integer, decimal);
 }
