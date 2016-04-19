@@ -2,21 +2,22 @@
  * This is a tutorial of Rust language.
  */
 
-use std::fmt;
+use std::fmt::{self, Formatter, Display};
 
 fn main() {
   println!("Hello World!");
   println!("I'm a Rustacean!");
-  
+
   let x = 5 + 5;
   println!("Is `x` 10 or 100? x = {}", x);
-  
+
   formatted_print();
   debug();
   display();
   testcase();
   formatting();
   literals_and_operators();
+  tuples();
 }
 
 fn formatted_print() {
@@ -30,7 +31,7 @@ fn formatted_print() {
   println!("{number:>width$}", number=1, width=6);
   println!("{number:>0width$}", number=1,width=6);
   println!("My name is {0}, {1} {0}.", "Bond", "James");
-  
+
   println!("Pi is roughly {0:.3}", 22.0/7.0);
   println!("Pi is roughly {1:.0$}", 3, 22.0/7.0);
   println!("Pi is roughly {:.*}", 3, 22.0/7.0);
@@ -40,10 +41,10 @@ fn formatted_print() {
 fn debug() {
   #[derive(Debug)]
   struct Structure(i32);
-  
+
   #[derive(Debug)]
   struct Deep(Structure);
-  
+
   println!("{:?} months in a year.", 12);
   println!("{1:?} {0:?} is the {actor:?} name.", "Slater", "Christina", actor="actor's");
   println!("Now {:?} will print!", Structure(3));
@@ -137,8 +138,6 @@ fn testcase() {
 }
 
 fn formatting() {
-    use std::fmt::{self, Formatter, Display};
-
     struct City {
         name: &'static str,
         lat: f32,
@@ -195,5 +194,54 @@ fn literals_and_operators() {
     println!("0011 XOR 0101 is {:04b}", 0b0011u32 ^ 0b0101);
     println!("1 << 5 is {}", 1u32 << 5);
     println!("0x80 >> 2 is 0x{:x}", 0x80u32 >> 2);
-    println!("ONe million is written as {}", 1_000_000u32);
+    println!("One million is written as {}", 1_000_000u32);
+}
+
+// Tuples can be used as function arguments and as return values.
+fn reverse(pair: (i32, bool)) -> (bool, i32) {
+    // `let` can be used to bind the members of a tuple to variables.
+    let (integer, boolean) = pair;
+    (boolean, integer)
+}
+
+
+fn tuples() {
+    #[derive(Debug)]
+    struct Matrix(f32, f32, f32, f32);
+
+    impl Display for Matrix {
+        fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+            write!(f, "( {} {} )\n( {} {} )",
+                   self.0, self.1, self.2, self.3)
+        }
+    }
+
+    fn transpose(matrix: Matrix) -> Matrix {
+        let Matrix(a, b, c, d) = matrix;
+        Matrix(a, c, b ,d)
+    }
+
+    let long_tuple = (1u8, 2u16, 3u32, 4u64, -1i8, -2i16, -3i32, -4i64, 0.1f32, 0.2f64, 'a', true);
+    println!("long tuple first value: {}", long_tuple.0);
+    println!("long tuple second value: {}", long_tuple.1);
+
+    let tuple_of_tuples = ((1u8, 2u16, 2u32), (4u64, -1i8), -2i16);
+    println!("tuple of tuples: {:?}", tuple_of_tuples);
+
+    let pair = (1, true);
+    println!("pair is {:?}", pair);
+
+    println!("the reversed pair is{:?}", reverse(pair));
+
+    println!("one element tuple: {:?}", (5u32,));
+    println!("just an integer: {:?}", (5u32));
+
+    let tuple = (1, "hello", 4.5, true);
+    let (a, b, c, d) = tuple;
+    println!("{:?}, {:?}, {:?}, {:?}", a, b, c, d);
+
+    let matrix = Matrix(1.1, 1.2, 2.1, 2.2);
+    println!("{:?}", matrix);
+    println!("Matrix: \n{}", matrix);
+    println!("Transpose: \n{}", transpose(matrix));
 }
