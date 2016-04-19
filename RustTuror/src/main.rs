@@ -300,33 +300,34 @@ fn structures() {
     println!("pari contains {:?} and {:?}", integer, decimal);
 }
 
+enum Person {
+    Skinny,
+    Fat,
+    Height(i32),
+    Weight(i32),
+    Info { name: String, height: i32 }
+}
+
 fn enumeration() {
-    #![allow(dead_code)]
-    enum Person {
-        Skinny,
-        Fat,
-        Height(i32),
-        Weight(i32),
-        Info { name: String, height: i32 }
-    }
+    use Person::*;
 
     fn inspect(p: Person) {
         match p {
-            Person::Skinny    => println!("Is skinny!"),
-            Person::Fat       => println!("Is fat!"),
-            Person::Height(i) => println!("Has a height of {}.", i),
-            Person::Weight(i) => println!("Has a Weight of {}.", i),
-            Person::Info {name, height} => {
+            Skinny    => println!("Is skinny!"),
+            Fat       => println!("Is fat!"),
+            Height(i) => println!("Has a height of {}.", i),
+            Weight(i) => println!("Has a Weight of {}.", i),
+            Info {name, height} => {
                 println!("{} is {} tail!", name, height);
             },
         }
     }
 
-    let person = Person::Height(18);
-    let danny  = Person::Weight(10);
-    let dave   = Person::Info {name: "Dave".to_owned(), height: 72};
-    let john   = Person::Fat;
-    let larry  = Person::Skinny;
+    let person = Height(18);
+    let danny  = Weight(10);
+    let dave   = Info {name: "Dave".to_owned(), height: 72};
+    let john   = Fat;
+    let larry  = Skinny;
 
     inspect(person);
     inspect(danny);
@@ -334,3 +335,4 @@ fn enumeration() {
     inspect(john);
     inspect(larry);
 }
+
