@@ -1,6 +1,7 @@
 /*
  * This is a tutorial of Rust language.
  */
+#![allow(dead_code)]
 
 use std::fmt::{self, Formatter, Display};
 use std::mem;
@@ -22,6 +23,8 @@ fn main() {
   arrays_and_slices();
   structures();
   enumeration();
+  c_like();
+  linked_list();
 }
 
 fn formatted_print() {
@@ -280,7 +283,6 @@ fn structures() {
         y: f64,
     }
 
-    #[allow(dead_code)]
     struct Rectangle {
         p1: Point,
         p2: Point,
@@ -336,3 +338,69 @@ fn enumeration() {
     inspect(larry);
 }
 
+enum Number {
+    Zero,
+    One,
+    Two,
+}
+
+enum Color {
+    Red   = 0xff0000,
+    Green = 0x00ff00,
+    Blue  = 0x0000ff,
+}
+
+fn c_like() {
+    use Number::*;
+    use Color::*;
+
+    println!("zero is {}", Zero as i32);
+    println!("one is {}", One as i32);
+    println!("roses are #{:06x}", Red as i32);
+    println!("violets are #{:06x}", Blue as i32);
+}
+
+enum List {
+    Cons(u32, Box<List>),
+    Nil,
+}
+
+fn linked_list() {
+    use List::*;
+
+    impl List {
+        fn new() -> List {
+            Nil
+        }
+
+        fn prepend(self, elem: u32) -> List {
+            Cons(elem, Box::new(self))
+        }
+
+        fn len(&self) -> u32 {
+            match *self {
+                Cons(_, ref tail) => 1 + tail.len(),
+                Nil => 0
+            }
+        }
+
+        fn stringify(&self) -> String {
+            match *self {
+                Cons(head, ref tail) => {
+                    format!("{}, {}", head, tail.stringify())
+                },
+                Nil => {
+                    format!("Nil")
+                },
+            }
+        }
+    }
+    let mut list = List::new();
+
+    list = list.prepend(1);
+    list = list.prepend(2);
+    list = list.prepend(3);
+
+    println!("linked list has length: {}", list.len());
+    println!("{}", list.stringify());
+}
