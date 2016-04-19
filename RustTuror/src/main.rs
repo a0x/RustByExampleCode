@@ -21,6 +21,7 @@ fn main() {
   tuples();
   arrays_and_slices();
   structures();
+  enumeration();
 }
 
 fn formatted_print() {
@@ -297,4 +298,39 @@ fn structures() {
     let pair = Pair(1, 0.1);
     let Pair(integer, decimal) = pair;
     println!("pari contains {:?} and {:?}", integer, decimal);
+}
+
+fn enumeration() {
+    #![allow(dead_code)]
+    enum Person {
+        Skinny,
+        Fat,
+        Height(i32),
+        Weight(i32),
+        Info { name: String, height: i32 }
+    }
+
+    fn inspect(p: Person) {
+        match p {
+            Person::Skinny    => println!("Is skinny!"),
+            Person::Fat       => println!("Is fat!"),
+            Person::Height(i) => println!("Has a height of {}.", i),
+            Person::Weight(i) => println!("Has a Weight of {}.", i),
+            Person::Info {name, height} => {
+                println!("{} is {} tail!", name, height);
+            },
+        }
+    }
+
+    let person = Person::Height(18);
+    let danny  = Person::Weight(10);
+    let dave   = Person::Info {name: "Dave".to_owned(), height: 72};
+    let john   = Person::Fat;
+    let larry  = Person::Skinny;
+
+    inspect(person);
+    inspect(danny);
+    inspect(dave);
+    inspect(john);
+    inspect(larry);
 }
