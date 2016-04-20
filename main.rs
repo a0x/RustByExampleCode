@@ -28,6 +28,7 @@ fn main() {
     constants();
     variable_bindings();
     mutability();
+    scope_and_shadowing();
 }
 
 fn formatted_print() {
@@ -445,4 +446,23 @@ fn mutability() {
     println!("Before mutation: {}", mutable_binding);
     mutable_binding += 1;
     println!("After mutation: {}", mutable_binding);
+}
+
+fn scope_and_shadowing() {
+    let long_lived_binding = 1;
+
+    // This is a block, and has a smaller scope than the main function.
+    {
+        // This binding only exists in this block.
+        let short_lived_binding = 2;
+        println!("inner short: {}", short_lived_binding);
+        let long_lived_binding = 5_f32;
+        println!("inner long: {}", long_lived_binding);
+    }
+    // End of the block
+
+    println!("outer long: {}", long_lived_binding);
+
+    let long_lived_binding = 'a';
+    println!("outer long: {}", long_lived_binding);
 }
