@@ -29,6 +29,7 @@ fn main() {
     variable_bindings();
     mutability();
     scope_and_shadowing();
+    casting();
 }
 
 fn formatted_print() {
@@ -465,4 +466,36 @@ fn scope_and_shadowing() {
 
     let long_lived_binding = 'a';
     println!("outer long: {}", long_lived_binding);
+}
+
+fn casting() {
+    #![allow(overflowing_literals)]
+
+    let decimal = 65.4321_f32;
+    let integer: u8 = decimal as u8;
+    let character = integer as char;
+
+    println!("Casting: {} -> {} -> {}", decimal, integer, character);
+
+    // When casting any value to an unsigned type, T,
+    // std::T::MAX + 1 is added or subtracted until the value
+    // fits into the new type.
+    println!("1000 as a u16 is: {}", 1000 as u16);
+
+    // Under the hood, the first 8 bit from the least significant bit (LSB) are used,
+    // while the rest towards the most significant bit (MSB) get truncated.
+    println!("1000 as u8 is: {}", 1000 as u8);
+    println!("  -1 as u8 is: {}", (-1i8) as u8);
+
+    println!("1000 mod 256 is: {}", 1000 % 256);
+
+    // When casting to a signed type, the result is the same as first casting to the corresponding
+    // unsigned type then taking the two's complement.
+    //
+    // Unless it already fits, of course.
+    println!(" 128 as i16 is: {}", 128 as i16);
+    println!(" 128 as i8  is: {}", 128 as i8);
+
+    println!("1000 as a i8 is : {}", 1000 as i8);
+    println!(" 232 as a i8 is : {}", 232 as i8);
 }
