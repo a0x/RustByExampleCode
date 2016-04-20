@@ -419,3 +419,19 @@ fn constants() {
     println!("The thresholdis {}", THRESHOLD);
     println!("{} is {}", n, if is_big(n) {"big"} else {"small"});
 }
+
+fn variable_bindings() {
+    let an_integer = 1u32;
+    let a_boolean  = true;
+    let unit = ();
+    let copied_integer = an_integer;
+
+    println!("An integer: {:?}", copied_integer);
+    println!("A boolean: {:?}", a_boolean);
+    println!("Meet the unit value: {:?}", unit);
+
+    // The complier warns about unused variable bindings; there warnings can
+    // be slienced by prefixing the variable name with an underscore.
+    let _unused_variable = 3u32;
+    let noisy_unused_variable = 2u32;
+}
