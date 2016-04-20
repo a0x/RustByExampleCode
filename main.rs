@@ -25,6 +25,7 @@ fn main() {
     enumeration();
     c_like();
     linked_list();
+    constants();
 }
 
 fn formatted_print() {
@@ -403,4 +404,18 @@ fn linked_list() {
 
     println!("linked list has length: {}", list.len());
     println!("{}", list.stringify());
+}
+
+static LANGUAGE: &'static str = "Rust";
+const  THRESHOLD: i32 = 10;
+
+fn is_big(n: i32) -> bool {
+    n > THRESHOLD
+}
+
+fn constants() {
+    let n = 16;
+    println!("This is {}", LANGUAGE);
+    println!("The thresholdis {}", THRESHOLD);
+    println!("{} is {}", n, if is_big(n) {"big"} else {"small"});
 }
