@@ -26,6 +26,8 @@ fn main() {
     c_like();
     linked_list();
     constants();
+    variable_bindings();
+    mutability();
 }
 
 fn formatted_print() {
@@ -434,4 +436,13 @@ fn variable_bindings() {
     // be slienced by prefixing the variable name with an underscore.
     let _unused_variable = 3u32;
     let noisy_unused_variable = 2u32;
+}
+
+fn mutability() {
+    let _immutable_binding = 1;
+    let mut mutable_binding = 1;
+
+    println!("Before mutation: {}", mutable_binding);
+    mutable_binding += 1;
+    println!("After mutation: {}", mutable_binding);
 }
