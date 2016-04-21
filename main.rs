@@ -30,6 +30,9 @@ fn main() {
     mutability();
     scope_and_shadowing();
     casting();
+    literals();
+    interfaces();
+    alias();
 }
 
 fn formatted_print() {
@@ -498,4 +501,48 @@ fn casting() {
 
     println!("1000 as a i8 is : {}", 1000 as i8);
     println!(" 232 as a i8 is : {}", 232 as i8);
+}
+
+fn literals() {
+    // Suffixed literals, their types are known at initialization.
+    let x = 1u8;
+    let y = 2u32;
+    let z = 3f32;
+
+    // Unsuffixed leteral, their types depend on how they are used.
+    let i = 1;
+    let f = 1.0;
+
+    // `size_of_val` return the size of a variable in bytes.
+    println!("size of `x` in bytes: {}", mem::size_of_val(&x));
+    println!("size of `y` in bytes: {}", mem::size_of_val(&y));
+    println!("size of `z` in bytes: {}", mem::size_of_val(&z));
+    println!("size of `i` in bytes: {}", mem::size_of_val(&i));
+    println!("size of `f` in bytes: {}", mem::size_of_val(&f));
+}
+
+fn interfaces() {
+    let elem = 5u8;
+    let mut vec = Vec::new();
+
+    println!("{:?}", vec);
+    vec.push(elem);
+    vec.push(6);
+    println!("{:?}", vec);
+}
+
+fn alias() {
+    type NanoSecond = u64;
+    type Inch = u64;
+
+    #[allow(non_camel_case_types)]
+    type u64_t = u64;
+
+    let nanoseconds: NanoSecond = 5 as u64_t;
+    let inches: Inch = 2 as u64_t;
+
+    println!("{} nanoseconds + {} inches = {} unit?",
+             nanoseconds,
+             inches,
+             nanoseconds + inches);
 }
