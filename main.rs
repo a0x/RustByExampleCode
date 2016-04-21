@@ -34,6 +34,9 @@ fn main() {
     interfaces();
     alias();
     expressions();
+    if_else();
+    loop_();
+    nested_loop();
 }
 
 fn formatted_print() {
@@ -562,4 +565,60 @@ fn expressions() {
     println!("x is {:?}", x);
     println!("y is {:?}", y);
     println!("z is {:?}", z);
+}
+
+fn if_else() {
+    let n = 5;
+    if n < 0 {
+        print!("{} is negative", n);
+    } else if n > 0 {
+        print!("{} is positive", n);
+    } else {
+        print!("{} is zero", n);
+    }
+
+    let big_n =
+        if n < 10 && n > -10 {
+            println!(", and is a small number, increase ten-fold");
+            10 * n
+        } else {
+            println!(", and is a big number, reduce by two");
+            n / 2
+        };
+    println!("{} -> {}", n, big_n);
+}
+
+fn loop_() {
+    let mut count = 0u32;
+    println!("Let's count until infinity!");
+    loop {
+        count += 1;
+        if count == 3 {
+            println!("three");
+            continue;
+        }
+        println!("{}", count);
+        if count == 5 {
+            println!("OK, that's enough!");
+            break;
+        }
+    }
+}
+
+fn nested_loop() {
+    #![allow(unreachable_code)]
+    let mut inner = 0u16;
+    println!("Entered the outer loop");
+    'outer: loop {
+        'inner: loop {
+            inner += 1;
+            print!("{} ", inner);
+            if inner > 10 {
+                print!("\n");
+                break 'outer;
+            }
+        }
+        println!("This point will never be reached");
+    }
+    println!("Exited the outer loop");
 }
